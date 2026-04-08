@@ -12,11 +12,11 @@ use Drupal\taxonomy\Entity\Vocabulary;
  */
 function glossary_tooltip_install() {
   if (!Vocabulary::load('glossary')) {
-    $vocabulary = Vocabulary::create([
+    $glossary_vocabulary = Vocabulary::create([
       'vid' => 'glossary',
       'name' => 'Glossary',
       'description' => 'Vocabulary used by the Glossary Tooltip module.',
     ]);
-    $vocabulary->save();
+    $glossary_vocabulary->save();
   }
 }

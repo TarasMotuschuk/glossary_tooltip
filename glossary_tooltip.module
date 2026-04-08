@@ -16,10 +16,10 @@ function glossary_tooltip_entity_view_alter(array &$build, EntityInterface $enti
     return;
   }
 
-  /** @var \Drupal\glossary_tooltip\GlossaryTooltipProcessor $processor */
-  $processor = \Drupal::service('glossary_tooltip.processor');
+  /** @var \Drupal\glossary_tooltip\GlossaryTooltipProcessor $processor_service */
+  $processor_service = \Drupal::service('glossary_tooltip.processor');
 
-  if ($processor->alterBuild($build)) {
+  if ($processor_service->alterBuild($build)) {
     $build['#attached']['library'][] = 'glossary_tooltip/frontend';
   }
 }
