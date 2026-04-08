@@ -1,36 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\glossary_tooltip;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\taxonomy\TermInterface;
 
 /**
  * Replaces glossary terms in rendered content with tooltip markup.
  */
-class GlossaryTooltipProcessor {
+final class GlossaryTooltipProcessor {
 
   /**
    * Maximum tooltip description length.
    */
-  protected const TOOLTIP_DESCRIPTION_LIMIT = 100;
-
-  /**
-   * Entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
+  private const int TOOLTIP_DESCRIPTION_LIMIT = 100;
 
   /**
    * Constructs the processor.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
-    $this->entityTypeManager = $entityTypeManager;
-  }
+  public function __construct(
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly RendererInterface $renderer,
+  ) {}
 
   /**
    * Alters a render array and injects glossary tooltips.
@@ -43,7 +40,7 @@ class GlossaryTooltipProcessor {
 
     $changed = FALSE;
     foreach ($build as $key => &$item) {
-      if (strpos((string) $key, '#') === 0) {
+      if (str_starts_with((string) $key, '#')) {
         continue;
       }
       if ($this->alterRenderArray($item, $terms)) {
@@ -57,7 +54,7 @@ class GlossaryTooltipProcessor {
   /**
    * Recursively alters rendered field values.
    */
-  protected function alterRenderArray(array &$element, array $terms): bool {
+  private function alterRenderArray(array &$element, array $terms): bool {
     $changed = FALSE;
 
     if (
@@ -83,7 +80,7 @@ class GlossaryTooltipProcessor {
     foreach ($element as $key => &$child) {
       if (
         $key === '#children' ||
-        strpos((string) $key, '#') === 0 ||
+        str_starts_with((string) $key, '#') ||
         !is_array($child)
       ) {
         continue;
@@ -99,7 +96,7 @@ class GlossaryTooltipProcessor {
   /**
    * Replaces glossary terms inside HTML text nodes.
    */
-  protected function processHtml(string $html, array $terms): string {
+  private function processHtml(string $html, array $terms): string {
     if (trim(strip_tags($html)) === '') {
       return $html;
     }
@@ -162,7 +159,7 @@ class GlossaryTooltipProcessor {
   /**
    * Replaces glossary terms in a plain text fragment.
    */
-  protected function replaceTermsInText(string $text, array $terms): string {
+  private function replaceTermsInText(string $text, array $terms): string {
     if ($text === '') {
       return $text;
     }
@@ -188,38 +185,29 @@ class GlossaryTooltipProcessor {
       $matched_text = $matches[0];
       $term = $terms[mb_strtolower($matched_text)];
 
-      return $this->buildTooltipMarkup($matched_text, $term);
+      return $this->renderTooltipMarkup($matched_text, $term);
     }, $text);
   }
 
   /**
-   * Creates tooltip markup for a term occurrence.
+   * Renders tooltip markup for a term occurrence.
    */
-  protected function buildTooltipMarkup(string $matchedText, array $term): string {
-    $output = '<span class="glossary-tooltip" tabindex="0">';
-    $output .= '<span class="glossary-tooltip__term">'
-      . htmlspecialchars($matchedText, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
-      . '</span>';
-    $output .= '<span class="glossary-tooltip__bubble" role="tooltip">';
-    $output .= '<span class="glossary-tooltip__description">'
-      . htmlspecialchars($term['short_description'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
-      . '</span>';
+  private function renderTooltipMarkup(string $matched_text, array $term): string {
+    $build = [
+      '#theme' => 'glossary_tooltip',
+      '#matched_text' => $matched_text,
+      '#short_description' => $term['short_description'],
+      '#is_trimmed' => $term['is_trimmed'],
+      '#url' => $term['url'],
+    ];
 
-    if (!empty($term['is_trimmed'])) {
-      $output .= ' <a class="glossary-tooltip__more" href="'
-        . htmlspecialchars($term['url'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
-        . '">Read more</a>';
-    }
-
-    $output .= '</span></span>';
-
-    return $output;
+    return (string) $this->renderer->renderInIsolation($build);
   }
 
   /**
    * Loads published glossary terms indexed by normalized name.
    */
-  protected function loadGlossaryTerms(): array {
+  private function loadGlossaryTerms(): array {
     $storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $ids = $storage->getQuery()
       ->condition('vid', 'glossary')
@@ -263,7 +251,7 @@ class GlossaryTooltipProcessor {
   /**
    * Converts a taxonomy description to plain tooltip text.
    */
-  protected function normalizeDescription(string $description): string {
+  private function normalizeDescription(string $description): string {
     $description = Html::decodeEntities(strip_tags($description));
     $description = preg_replace('/\s+/u', ' ', $description);
 

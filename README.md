@@ -15,15 +15,15 @@ Then you will be asked to send the module and present it on an interview. Please
 
 Create module that will be compatible with Drupal 10 and Drupal 11.0-11.2.
 
-| Module Details | Description |
-|---|---|
-| **Module Name** | Glossary Tooltip |
-| **Mandatory** | no |
-| **Use case** | Drupal 10 / Drupal 11.0-11.2 |
-| **Short Description** | The words correspondent / identical to the items included in the glossary vocabulary are highlighted |
+| Module Details | Description                                                                                                                                                                                                                                                                              |
+|---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Module Name** | Glossary Tooltip                                                                                                                                                                                                                                                                         |
+| **Mandatory** | no                                                                                                                                                                                                                                                                                       |
+| **Use case** | Drupal 10 / Drupal 11                                                                                                                                                                                                                                                                    |
+| **Short Description** | The words correspondent / identical to the items included in the glossary vocabulary are highlighted                                                                                                                                                                                     |
 | **Behaviour** | Create a functionality that will allow admin to add words in the glossary with the description. After the term is added and published, the content of the page will be checked and if the word exists in the page it will add description to it. You can check behaviour on the designs. |
-| **Recommended usage** | Any content type |
-| **Designs** | Optional (does not count on task review) |
+| **Recommended usage** | Any content type                                                                                                                                                                                                                                                                         |
+| **Designs** | Optional (does not count on task review)                                                                                                                                                                                                                                                 |
 
 **Figma**  
 https://www.figma.com/file/A2sm4Jy2GDlOYWu52kVLbY/Optional-Designs-Back-End?node-id=0%3A1
