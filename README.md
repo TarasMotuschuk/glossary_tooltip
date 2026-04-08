@@ -19,7 +19,7 @@ Create module that will be competitive with Drupal 8/9.
 |---|---|
 | **Module Name** | Glossary Tooltip |
 | **Mandatory** | no |
-| **Use case** | Drupal 9 |
+| **Use case** | Drupal 8/9 |
 | **Short Description** | The words correspondent / identical to the items included in the glossary vocabulary are highlighted |
 | **Behaviour** | Create a functionality that will allow admin to add words in the glossary with the description. After the term is added and published, the content of the page will be checked and if the word exists in the page it will add description to it. You can check behaviour on the designs. |
 | **Recommended usage** | Any content type |
