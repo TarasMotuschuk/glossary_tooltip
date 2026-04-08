@@ -1,25 +1,25 @@
-(function ($, Drupal) {
+(function (Drupal, once) {
   Drupal.behaviors.glossaryTooltip = {
     attach: function (context) {
-      $('.glossary-tooltip', context).once('glossary-tooltip').each(function () {
-        var $element = $(this);
+      once('glossary-tooltip', '.glossary-tooltip', context).forEach(function (element) {
+        var tooltip_element = element;
 
-        $element.on('mouseenter', function () {
-          $element.addClass('is-active');
+        tooltip_element.addEventListener('mouseenter', function () {
+          tooltip_element.classList.add('is-active');
         });
 
-        $element.on('mouseleave', function () {
-          $element.removeClass('is-active');
+        tooltip_element.addEventListener('mouseleave', function () {
+          tooltip_element.classList.remove('is-active');
         });
 
-        $element.on('focusin', function () {
-          $element.addClass('is-active');
+        tooltip_element.addEventListener('focusin', function () {
+          tooltip_element.classList.add('is-active');
         });
 
-        $element.on('focusout', function () {
-          $element.removeClass('is-active');
+        tooltip_element.addEventListener('focusout', function () {
+          tooltip_element.classList.remove('is-active');
         });
       });
     }
   };
-})(jQuery, Drupal);
+})(Drupal, once);

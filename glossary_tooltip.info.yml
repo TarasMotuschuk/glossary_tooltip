@@ -2,6 +2,6 @@ name: Glossary Tooltip
 type: module
 description: Highlights glossary terms in rendered content and shows their descriptions in tooltips.
 package: Custom
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^10 || >=11 <11.3
 dependencies:
   - drupal:taxonomy

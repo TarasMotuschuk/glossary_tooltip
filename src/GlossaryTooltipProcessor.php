@@ -60,7 +60,11 @@ class GlossaryTooltipProcessor {
   protected function alterRenderArray(array &$element, array $terms): bool {
     $changed = FALSE;
 
-    if (isset($element['#type']) && $element['#type'] === 'processed_text' && !empty($element['#text'])) {
+    if (
+      isset($element['#type']) &&
+      $element['#type'] === 'processed_text' &&
+      !empty($element['#text'])
+    ) {
       $processed_html = $this->processHtml($element['#text'], $terms);
       if ($processed_html !== $element['#text']) {
         $element['#text'] = $processed_html;
@@ -77,7 +81,11 @@ class GlossaryTooltipProcessor {
     }
 
     foreach ($element as $key => &$child) {
-      if ($key === '#children' || strpos((string) $key, '#') === 0 || !is_array($child)) {
+      if (
+        $key === '#children' ||
+        strpos((string) $key, '#') === 0 ||
+        !is_array($child)
+      ) {
         continue;
       }
       if ($this->alterRenderArray($child, $terms)) {
@@ -98,7 +106,9 @@ class GlossaryTooltipProcessor {
 
     $internal_errors = libxml_use_internal_errors(TRUE);
     $document = new \DOMDocument('1.0', 'UTF-8');
-    $wrapped_html = '<?xml encoding="UTF-8"><div data-glossary-root="1">' . $html . '</div>';
+    $wrapped_html = '<?xml encoding="UTF-8"><div data-glossary-root="1">'
+      . $html .
+      '</div>';
 
     if (!$document->loadHTML($wrapped_html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD)) {
       libxml_clear_errors();
@@ -107,7 +117,11 @@ class GlossaryTooltipProcessor {
     }
 
     $xpath = new \DOMXPath($document);
-    $query = '//text()[normalize-space() != "" and not(ancestor::a) and not(ancestor::script) and not(ancestor::style) and not(ancestor::span[contains(concat(" ", normalize-space(@class), " "), " glossary-tooltip ")])]';
+    $query = '//text()[normalize-space() != ""'
+      . ' and not(ancestor::a)'
+      . ' and not(ancestor::script)'
+      . ' and not(ancestor::style)'
+      . ' and not(ancestor::span[contains(concat(" ", normalize-space(@class), " "), " glossary-tooltip ")])]';
     $nodes = $xpath->query($query);
 
     if (!$nodes) {
@@ -166,7 +180,9 @@ class GlossaryTooltipProcessor {
       return strlen($b) <=> strlen($a);
     });
 
-    $pattern = '/(?<![\p{L}\p{N}_-])(' . implode('|', $escaped_names) . ')(?![\p{L}\p{N}_-])/iu';
+    $pattern = '/(?<![\p{L}\p{N}_-])('
+      . implode('|', $escaped_names) .
+      ')(?![\p{L}\p{N}_-])/iu';
 
     return (string) preg_replace_callback($pattern, function (array $matches) use ($terms): string {
       $matched_text = $matches[0];
@@ -181,12 +197,18 @@ class GlossaryTooltipProcessor {
    */
   protected function buildTooltipMarkup(string $matchedText, array $term): string {
     $output = '<span class="glossary-tooltip" tabindex="0">';
-    $output .= '<span class="glossary-tooltip__term">' . htmlspecialchars($matchedText, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</span>';
+    $output .= '<span class="glossary-tooltip__term">'
+      . htmlspecialchars($matchedText, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+      . '</span>';
     $output .= '<span class="glossary-tooltip__bubble" role="tooltip">';
-    $output .= '<span class="glossary-tooltip__description">' . htmlspecialchars($term['short_description'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</span>';
+    $output .= '<span class="glossary-tooltip__description">'
+      . htmlspecialchars($term['short_description'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+      . '</span>';
 
     if (!empty($term['is_trimmed'])) {
-      $output .= ' <a class="glossary-tooltip__more" href="' . htmlspecialchars($term['url'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">Read more</a>';
+      $output .= ' <a class="glossary-tooltip__more" href="'
+        . htmlspecialchars($term['url'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+        . '">Read more</a>';
     }
 
     $output .= '</span></span>';
@@ -222,7 +244,12 @@ class GlossaryTooltipProcessor {
         continue;
       }
 
-      $short_description = Unicode::truncate($description, self::TOOLTIP_DESCRIPTION_LIMIT, TRUE, TRUE);
+      $short_description = Unicode::truncate(
+        $description,
+        self::TOOLTIP_DESCRIPTION_LIMIT,
+        TRUE,
+        TRUE,
+      );
       $terms[mb_strtolower($name)] = [
         'short_description' => $short_description,
         'is_trimmed' => Unicode::strlen($description) > Unicode::strlen($short_description),
