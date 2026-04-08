@@ -1,11 +1,11 @@
 {
   "name": "glossary_tooltip/glossary_tooltip",
   "description": "Drupal module that highlights glossary terms in rendered content and displays their descriptions in tooltips.",
-  "type": "drupal-module",
+  "type": "drupal-custom-module",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
-      "name": "Development Team"
+      "name": "Motuschuk Taras"
     }
   ],
   "support": {
