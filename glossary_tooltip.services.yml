@@ -6,5 +6,8 @@ services:
   glossary_tooltip.processor:
     class: Drupal\glossary_tooltip\GlossaryTooltipProcessor
 
+  Drupal\glossary_tooltip\GlossaryTooltipProcessor:
+    alias: glossary_tooltip.processor
+
   glossary_tooltip.hooks:
     class: Drupal\glossary_tooltip\Hook\GlossaryTooltipHooks
