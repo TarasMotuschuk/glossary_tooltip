@@ -22,7 +22,7 @@ final class GlossaryTooltipSettingsForm extends ConfigFormBase {
   /**
    * Supported field types.
    *
-   * @var list<string>
+   * @var array<int, string>
    */
   private const array SUPPORTED_FIELD_TYPES = [
     'string',
@@ -75,11 +75,15 @@ final class GlossaryTooltipSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('glossary_tooltip.settings');
-    $disabled_field_ids = $config->get('disabled_field_ids') ?? [];
+    $disabled_field_ids = $config->get('disabled_field_ids')
+      ?? [];
 
     $form['description'] = [
       '#type' => 'item',
-      '#markup' => (string) $this->t('Choose which node text fields should be excluded from glossary tooltips. By default all supported fields are included.'),
+      '#markup' => (string) $this->t(
+        'Choose which node text fields should be excluded from glossary
+        tooltips. By default all supported fields are included.'
+      ),
     ];
 
     $form['fields'] = [
@@ -135,12 +139,20 @@ final class GlossaryTooltipSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $existing_disabled_field_ids = $this->config('glossary_tooltip.settings')->get('disabled_field_ids') ?? [];
-    $submitted_fields = $form_state->getValue('fields') ?? [];
+    $existing_disabled_field_ids = $this
+      ->config('glossary_tooltip.settings')
+      ->get('disabled_field_ids')
+      ?? [];
+    $submitted_fields = $form_state->getValue('fields')
+      ?? [];
     $disabled_field_ids = [];
 
     foreach ($submitted_fields as $bundle_values) {
-      if (!is_array($bundle_values) || !isset($bundle_values['excluded_fields']) || !is_array($bundle_values['excluded_fields'])) {
+      if (
+        !is_array($bundle_values)
+        || !isset($bundle_values['excluded_fields'])
+        || !is_array($bundle_values['excluded_fields'])
+      ) {
         continue;
       }
 

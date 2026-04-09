@@ -29,7 +29,8 @@
   };
 
   const closeOtherTooltips = currentTooltipElement => {
-    document.querySelectorAll(`.glossary-tooltip.${ACTIVE_CLASS}`).forEach(tooltipElement => {
+    document.querySelectorAll(`.glossary-tooltip.${ACTIVE_CLASS}`)
+      .forEach(tooltipElement => {
       if (tooltipElement !== currentTooltipElement) {
         closeTooltip(tooltipElement);
       }

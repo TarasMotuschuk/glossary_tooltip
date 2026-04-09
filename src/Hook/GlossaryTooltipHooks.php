@@ -43,9 +43,13 @@ final class GlossaryTooltipHooks {
     EntityInterface $entity,
     EntityViewDisplayInterface $entity_view_display,
   ): void {
-    $this->processor->markDisabledFields($build, $entity);
+    $this->processor
+      ->markDisabledFields($build, $entity);
 
-    if ($this->processor->alterBuild($build)) {
+    if (
+      $this->processor
+        ->alterBuild($build)
+    ) {
       $build['#attached']['library'][] = 'glossary_tooltip/frontend';
     }
   }
@@ -96,22 +100,35 @@ final class GlossaryTooltipHooks {
    */
   #[Hook('form_taxonomy_term_form_alter')]
   public function taxonomyTermFormAlter(array &$form, FormStateInterface $form_state): void {
-    $term = $form_state->getFormObject()->getEntity();
+    $term = $form_state
+      ->getFormObject()
+      ->getEntity();
 
-    if (!$term instanceof TermInterface || $term->bundle() !== 'glossary') {
+    if (
+      !$term instanceof TermInterface
+      || $term->bundle() !== 'glossary'
+    ) {
       return;
     }
 
-    if (isset($form['description'])) {
-      $form['description']['#required'] = TRUE;
-    }
+    foreach ([
+      ['description'],
+      ['description', 'widget', 0],
+      ['description', 'widget', 0, 'value'],
+    ] as $path) {
+      $element = &$form;
 
-    if (isset($form['description']['widget'][0])) {
-      $form['description']['widget'][0]['#required'] = TRUE;
-    }
+      foreach ($path as $key) {
+        if (!isset($element[$key])) {
+          unset($element);
+          continue 2;
+        }
 
-    if (isset($form['description']['widget'][0]['value'])) {
-      $form['description']['widget'][0]['value']['#required'] = TRUE;
+        $element = &$element[$key];
+      }
+
+      $element['#required'] = TRUE;
+      unset($element);
     }
 
     $form['#validate'][] = [$this, 'validateGlossaryDescription'];
@@ -133,7 +150,11 @@ final class GlossaryTooltipHooks {
     ));
 
     if ($description_value === '') {
-      $form_state->setErrorByName('description][0][value', $this->t('Description is required for glossary terms.'));
+      $form_state
+        ->setErrorByName(
+          'description][0][value',
+          $this->t('Description is required for glossary terms.')
+        );
     }
   }
 

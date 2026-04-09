@@ -68,7 +68,7 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
     $changed = FALSE;
 
     foreach ($build as $field_name => &$element) {
-      if (str_starts_with((string) $field_name, '#') || !is_array($element)) {
+      if (str_starts_with($field_name, '#') || !is_array($element)) {
         continue;
       }
 
@@ -117,7 +117,7 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
    * Builds the cache tag used for a node bundle's tooltip field settings.
    */
   public static function getNodeBundleSettingsCacheTag(string $bundle): string {
-    return self::NODE_BUNDLE_SETTINGS_TAG_PREFIX . $bundle;
+    return sprintf('%s%s', self::NODE_BUNDLE_SETTINGS_TAG_PREFIX, $bundle);
   }
 
   /**
@@ -153,13 +153,19 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
    *   A render array element.
    */
   private function sanitizeLinkElement(array &$element): bool {
-    if (($element['#type'] ?? NULL) !== 'link' || !array_key_exists('#title', $element)) {
+    if (
+      ($element['#type'] ?? NULL) !== 'link'
+      || !array_key_exists('#title', $element)
+    ) {
       return FALSE;
     }
 
     $title = $element['#title'];
 
-    if ($title instanceof MarkupInterface || is_string($title)) {
+    if (
+      $title instanceof MarkupInterface
+      || is_string($title)
+    ) {
       return FALSE;
     }
 
@@ -169,7 +175,10 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
       return TRUE;
     }
 
-    if (is_scalar($title) || $title instanceof \Stringable) {
+    if (
+      is_scalar($title)
+      || $title instanceof \Stringable
+    ) {
       $element['#title'] = (string) $title;
 
       return TRUE;
@@ -186,8 +195,12 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
    * @param array<string, mixed> $element
    *   The render array element.
    */
-  public static function postRenderGlossary(string $markup, array $element): string {
-    return \Drupal::service(self::class)->processRenderedMarkup($markup);
+  public static function postRenderGlossary(
+    string $markup,
+    array $element,
+  ): string {
+    return \Drupal::service(self::class)
+      ->processRenderedMarkup($markup);
   }
 
   /**
@@ -219,18 +232,25 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
    * @param array<string, array<string, mixed>> $terms
    *   Glossary term data indexed by normalized term name.
    */
-  private function processHtml(string $html, array $terms): string {
+  private function processHtml(
+    string $html,
+    array $terms,
+  ): string {
     if (trim(strip_tags($html)) === '') {
       return $html;
     }
 
     $internal_errors = libxml_use_internal_errors(TRUE);
     $document = new \DOMDocument('1.0', 'UTF-8');
-    $wrapped_html = '<?xml encoding="UTF-8"><div data-glossary-root="1">'
-      . $html .
-      '</div>';
+    $wrapped_html = sprintf('<?xml encoding="UTF-8"><div data-glossary-root="1">%s</div>', $html);
 
-    if (!$document->loadHTML($wrapped_html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD)) {
+    if (
+      !$document
+        ->loadHTML(
+          $wrapped_html,
+          LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+        )
+    ) {
       libxml_clear_errors();
       libxml_use_internal_errors($internal_errors);
 
@@ -266,19 +286,27 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
     foreach ($replacements as [$node, $updated_text]) {
       $fragment = $document->createDocumentFragment();
 
-      if (!$fragment->appendXML($updated_text) || !$node->parentNode) {
+      if (
+        !$fragment->appendXML($updated_text)
+        || !$node->parentNode
+      ) {
         continue;
       }
 
-      $node->parentNode->replaceChild($fragment, $node);
+      $node
+        ->parentNode
+        ->replaceChild($fragment, $node);
     }
 
     $result = '';
-    $root = $document->getElementsByTagName('div')->item(0);
+    $root = $document
+      ->getElementsByTagName('div')
+      ->item(0);
 
     if ($root) {
       foreach ($root->childNodes as $child) {
-        $result .= $document->saveHTML($child);
+        $result .= $document
+          ->saveHTML($child);
       }
     }
 
@@ -296,7 +324,10 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
    * @param array<string, array<string, mixed>> $terms
    *   Glossary term data indexed by normalized term name.
    */
-  private function replaceTermsInText(string $text, array $terms): string {
+  private function replaceTermsInText(
+    string $text,
+    array $terms,
+  ): string {
     if ($text === '') {
       return $text;
     }
@@ -343,7 +374,10 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
    * @param array<string, mixed> $term
    *   Prepared glossary term data.
    */
-  private function renderTooltipMarkup(string $matched_text, array $term): string {
+  private function renderTooltipMarkup(
+    string $matched_text,
+    array $term,
+  ): string {
     $short_description = (string) ($term['short_description'] ?? '');
 
     if ($matched_text === '' || $short_description === '') {
@@ -358,7 +392,8 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
       '#url' => (string) ($term['url'] ?? ''),
     ];
 
-    return (string) $this->renderer->renderInIsolation($build);
+    return (string) $this->renderer
+      ->renderInIsolation($build);
   }
 
   /**
@@ -377,7 +412,9 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
       'config:taxonomy.vocabulary.glossary',
     ]);
 
-    $storage = $this->entityTypeManager->getStorage('taxonomy_term');
+    $storage = $this
+      ->entityTypeManager
+      ->getStorage('taxonomy_term');
     $ids = $storage->getQuery()
       ->condition('vid', 'glossary')
       ->condition('status', 1)
@@ -439,7 +476,9 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
    */
   private function buildTermUrl(TermInterface $term): string {
     try {
-      return $term->toUrl()->toString();
+      return $term
+        ->toUrl()
+        ->toString();
     }
     catch (\Throwable) {
       return '';
