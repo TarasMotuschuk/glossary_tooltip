@@ -5,25 +5,47 @@
  * Hooks for the Glossary Tooltip module.
  */
 
+declare(strict_types=1);
+
+use Drupal\glossary_tooltip\Hook\GlossaryTooltipHooks;
+use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_entity_view_alter().
  */
-function glossary_tooltip_entity_view_alter(
-  array &$build,
-  EntityInterface $entity,
-  EntityViewDisplayInterface $display,
-) {
-  if ($entity->getEntityTypeId() !== 'node') {
-    return;
-  }
+function glossary_tooltip_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display): void {
+  $hooks = \Drupal::service('glossary_tooltip.hooks');
+  assert($hooks instanceof GlossaryTooltipHooks);
+  $hooks->entityViewAlter($build, $entity, $display);
+}
 
-  /** @var \Drupal\glossary_tooltip\GlossaryTooltipProcessor $processor_service */
-  $processor_service = \Drupal::service('glossary_tooltip.processor');
+/**
+ * Implements hook_block_view_alter().
+ */
+function glossary_tooltip_block_view_alter(array &$build, BlockPluginInterface $block): void {
+  $hooks = \Drupal::service('glossary_tooltip.hooks');
+  assert($hooks instanceof GlossaryTooltipHooks);
+  $hooks->blockViewAlter($build, $block);
+}
 
-  if ($processor_service->alterBuild($build)) {
-    $build['#attached']['library'][] = 'glossary_tooltip/frontend';
-  }
+/**
+ * Implements hook_theme().
+ */
+function glossary_tooltip_theme(): array {
+  $hooks = \Drupal::service('glossary_tooltip.hooks');
+  assert($hooks instanceof GlossaryTooltipHooks);
+
+  return $hooks->theme();
+}
+
+/**
+ * Implements hook_form_taxonomy_term_form_alter().
+ */
+function glossary_tooltip_form_taxonomy_term_form_alter(array &$form, FormStateInterface $form_state): void {
+  $hooks = \Drupal::service('glossary_tooltip.hooks');
+  assert($hooks instanceof GlossaryTooltipHooks);
+  $hooks->taxonomyTermFormAlter($form, $form_state);
 }

@@ -1,0 +1,13 @@
+{
+  "name": "glossary-tooltip-assets",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:css && npm run build:min",
+    "build:css": "sass src/glossary_tooltip.scss dist/glossary_tooltip.css --no-source-map --style=expanded",
+    "build:min": "sass src/glossary_tooltip.scss dist/glossary_tooltip.min.css --no-source-map --style=compressed",
+    "watch": "sass --watch src/glossary_tooltip.scss:dist/glossary_tooltip.css --style=expanded"
+  },
+  "devDependencies": {
+    "sass": "1.86.3"
+  }
+}
