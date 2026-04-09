@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ruleset name="Drudev CCS">
+  <description>Drupal PHPCS configuration using the image-provided Drudev standard.</description>
+
+  <arg name="colors"/>
+  <arg value="p"/>
+  <rule ref="Drudev"/>
+
+  <file>.</file>
+</ruleset>

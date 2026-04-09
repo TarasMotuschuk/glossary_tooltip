@@ -1,0 +1,17 @@
+name: Drupal CS
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  drupal-cs:
+    runs-on: ubuntu-latest
+    container:
+      image: timtom6891/drupal-cs:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Composer Normalize
+        run: composer-normalize --dry-run
+      - name: PHPCS
+        run: phpcs --standard=phpcs.xml ./
