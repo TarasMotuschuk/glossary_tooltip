@@ -7,11 +7,26 @@ on:
 jobs:
   drupal-cs:
     runs-on: ubuntu-latest
-    container:
-      image: timtom6891/drupal-cs:latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Pull Drupal CS image
+        run: docker pull timtom6891/drupal-cs:latest
+
       - name: Composer Normalize
-        run: composer-normalize --dry-run
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" \
+            --workdir /workspace \
+            timtom6891/drupal-cs:latest \
+            composer-normalize --dry-run /workspace/composer.json
+
       - name: PHPCS
-        run: phpcs --standard=phpcs.xml ./
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" \
+            --workdir /workspace \
+            timtom6891/drupal-cs:latest \
+            phpcs --standard=phpcs.xml

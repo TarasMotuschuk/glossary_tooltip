@@ -6,5 +6,13 @@
   <arg value="p"/>
   <rule ref="Drudev"/>
 
-  <file>.</file>
+  <file>composer.json</file>
+  <file>glossary_tooltip.info.yml</file>
+  <file>glossary_tooltip.install</file>
+  <file>glossary_tooltip.libraries.yml</file>
+  <file>glossary_tooltip.links.menu.yml</file>
+  <file>glossary_tooltip.routing.yml</file>
+  <file>glossary_tooltip.services.yml</file>
+  <file>config</file>
+  <file>src</file>
 </ruleset>

@@ -1,8 +1,14 @@
 {
   "name": "glossary_tooltip/glossary_tooltip",
   "description": "Drupal module that highlights glossary terms in rendered content and displays their descriptions in tooltips.",
-  "type": "drupal-custom-module",
   "license": "GPL-2.0-or-later",
+  "type": "drupal-custom-module",
+  "keywords": [
+    "drupal",
+    "glossary",
+    "tooltip",
+    "taxonomy"
+  ],
   "authors": [
     {
       "name": "Taras Motuschuk"
@@ -21,11 +27,5 @@
     "phpunit/phpunit": "^11",
     "squizlabs/php_codesniffer": "^3.7"
   },
-  "keywords": [
-    "drupal",
-    "glossary",
-    "tooltip",
-    "taxonomy"
-  ],
   "minimum-stability": "stable"
 }
