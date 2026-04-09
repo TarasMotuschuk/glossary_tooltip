@@ -22,9 +22,9 @@ final class GlossaryTooltipSettingsForm extends ConfigFormBase {
   /**
    * Supported field types.
    *
-   * @var list<string>
+   * @var array<int, string>
    */
-  private const SUPPORTED_FIELD_TYPES = [
+  private const array SUPPORTED_FIELD_TYPES = [
     'string',
     'string_long',
     'text',

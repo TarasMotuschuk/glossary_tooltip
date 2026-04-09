@@ -23,12 +23,12 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
   /**
    * Cache tag prefix for node bundle field-exclusion settings.
    */
-  private const NODE_BUNDLE_SETTINGS_TAG_PREFIX = 'glossary_tooltip:node_bundle:';
+  private const string NODE_BUNDLE_SETTINGS_TAG_PREFIX = 'glossary_tooltip:node_bundle:';
 
   /**
    * Maximum tooltip description length.
    */
-  private const TOOLTIP_DESCRIPTION_LIMIT = 100;
+  private const int TOOLTIP_DESCRIPTION_LIMIT = 100;
 
   /**
    * Constructs the processor.
@@ -401,7 +401,7 @@ final class GlossaryTooltipProcessor implements TrustedCallbackInterface {
    *
    * @return array{
    *   terms: array<string, array<string, mixed>>,
-   *   cacheability: \Drupal\Core\Cache\CacheableMetadata,
+   *   cacheability: \Drupal\Core\Cache\CacheableMetadata
    *   }
    *   The prepared glossary term data and its cacheability metadata.
    */

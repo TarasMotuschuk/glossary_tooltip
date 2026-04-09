@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Drupal\glossary_tooltip\Hook;
 
-use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\Attribute\Hook;
+use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\glossary_tooltip\GlossaryTooltipProcessor;
 use Drupal\taxonomy\TermInterface;
 
 /**
- * Hook handlers for the Glossary Tooltip module.
+ * Object-oriented hooks for the Glossary Tooltip module.
  */
 final class GlossaryTooltipHooks {
 
@@ -36,14 +37,19 @@ final class GlossaryTooltipHooks {
    * @param \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity_view_display
    *   The entity view display.
    */
+  #[Hook('entity_view_alter')]
   public function entityViewAlter(
     array &$build,
     EntityInterface $entity,
     EntityViewDisplayInterface $entity_view_display,
   ): void {
-    $this->processor->markDisabledFields($build, $entity);
+    $this->processor
+      ->markDisabledFields($build, $entity);
 
-    if ($this->processor->alterBuild($build)) {
+    if (
+      $this->processor
+        ->alterBuild($build)
+    ) {
       $build['#attached']['library'][] = 'glossary_tooltip/frontend';
     }
   }
@@ -56,6 +62,7 @@ final class GlossaryTooltipHooks {
    * @param \Drupal\Core\Block\BlockPluginInterface $block
    *   The block plugin instance.
    */
+  #[Hook('block_view_alter')]
   public function blockViewAlter(array &$build, BlockPluginInterface $block): void {
     if ($this->processor->alterBuild($build)) {
       $build['#attached']['library'][] = 'glossary_tooltip/frontend';
@@ -68,6 +75,7 @@ final class GlossaryTooltipHooks {
    * @return array<string, array<string, mixed>>
    *   Theme hook definitions.
    */
+  #[Hook('theme')]
   public function theme(): array {
     return [
       'glossary_tooltip' => [
@@ -90,6 +98,7 @@ final class GlossaryTooltipHooks {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state.
    */
+  #[Hook('form_taxonomy_term_form_alter')]
   public function taxonomyTermFormAlter(array &$form, FormStateInterface $form_state): void {
     $term = $form_state
       ->getFormObject()
@@ -141,10 +150,11 @@ final class GlossaryTooltipHooks {
     ));
 
     if ($description_value === '') {
-      $form_state->setErrorByName(
-        'description][0][value',
-        $this->t('Description is required for glossary terms.')
-      );
+      $form_state
+        ->setErrorByName(
+          'description][0][value',
+          $this->t('Description is required for glossary terms.')
+        );
     }
   }
 
