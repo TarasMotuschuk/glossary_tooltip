@@ -7,19 +7,19 @@ Test task. Drupal Module that will allow admin to add words in the glossary with
 
 To perform the tasks, you will need to locally deploy the Drupal on your laptop, write the functionality, etc. in the custom module.
 
-Please note that this variant targets Drupal 10 and Drupal 11.0-11.2.
+Please note that this variant targets Drupal 10+
 
-Then you will be asked to send the module and present it on an interview. Please make sure to submit the test task as a single module that can be installed on Drupal 10 and Drupal 11.0-11.2. There's no need to include folders like `docroot`, `core`, or any other default Drupal directories. The task is specifically to provide the module itself, nothing more.
+Then you will be asked to send the module and present it on an interview. Please make sure to submit the test task as a single module that can be installed on Drupal 11.3+. There's no need to include folders like `docroot`, `core`, or any other default Drupal directories. The task is specifically to provide the module itself, nothing more.
 
 ## TASK
 
-Create module that will be compatible with Drupal 10 and Drupal 11.0-11.2.
+Create module that will be compatible with Drupal 10+.
 
 | Module Details | Description                                                                                                                                                                                                                                                                              |
 |---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Module Name** | Glossary Tooltip                                                                                                                                                                                                                                                                         |
 | **Mandatory** | no                                                                                                                                                                                                                                                                                       |
-| **Use case** | Drupal 10 / Drupal 11                                                                                                                                                                                                                                                                    |
+| **Use case** | Drupal 10+                                                                                                                                                                                                                                                                               |
 | **Short Description** | The words correspondent / identical to the items included in the glossary vocabulary are highlighted                                                                                                                                                                                     |
 | **Behaviour** | Create a functionality that will allow admin to add words in the glossary with the description. After the term is added and published, the content of the page will be checked and if the word exists in the page it will add description to it. You can check behaviour on the designs. |
 | **Recommended usage** | Any content type                                                                                                                                                                                                                                                                         |
