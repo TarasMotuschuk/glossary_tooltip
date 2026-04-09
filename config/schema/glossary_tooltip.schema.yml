@@ -1,0 +1,9 @@
+glossary_tooltip.settings:
+  type: config_object
+  label: 'Glossary tooltip settings'
+  mapping:
+    disabled_field_ids:
+      type: sequence
+      label: 'Disabled field ids'
+      sequence:
+        type: string

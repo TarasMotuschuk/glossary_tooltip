@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for the Glossary Tooltip module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function glossary_tooltip_install() {
+  /** @var \Drupal\taxonomy\VocabularyStorageInterface $vocabulary_storage */
+  $vocabulary_storage = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_vocabulary');
+
+  if (!$vocabulary_storage->load('glossary')) {
+    $glossary_vocabulary = $vocabulary_storage
+      ->create([
+        'vid' => 'glossary',
+        'name' => 'Glossary',
+        'description' => 'Vocabulary used by the Glossary Tooltip module.',
+      ]);
+    $glossary_vocabulary->save();
+
+    \Drupal::state()
+      ->set('glossary_tooltip.created_glossary_vocabulary', TRUE);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function glossary_tooltip_uninstall() {
+  $state = \Drupal::state();
+  $created_glossary_vocabulary = $state
+    ->get('glossary_tooltip.created_glossary_vocabulary', FALSE);
+
+  if ($created_glossary_vocabulary) {
+    /** @var \Drupal\taxonomy\VocabularyStorageInterface $vocabulary_storage */
+    $vocabulary_storage = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_vocabulary');
+    $glossary_vocabulary = $vocabulary_storage
+      ->load('glossary');
+
+    if ($glossary_vocabulary !== NULL) {
+      $glossary_vocabulary->delete();
+    }
+  }
+
+  $state->delete('glossary_tooltip.created_glossary_vocabulary');
+}

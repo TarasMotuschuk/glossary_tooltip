@@ -1,0 +1,10 @@
+frontend:
+  version: 1.x
+  css:
+    theme:
+      assets/dist/glossary_tooltip.min.css: { minified: true }
+  js:
+    js/glossary_tooltip.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

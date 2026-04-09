@@ -1,0 +1,136 @@
+.glossary-tooltip {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: baseline;
+}
+.glossary-tooltip__term {
+  display: inline-block;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #36454f;
+  background: rgba(13, 121, 120, 0.1);
+  font-family: "Roboto Slab", Georgia, serif;
+  font-weight: 400;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: #9aa4b2;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+.glossary-tooltip__bubble {
+  --glossary-tooltip-left: 0px;
+  --glossary-tooltip-top: 0px;
+  --glossary-tooltip-arrow-left: 50%;
+  position: fixed;
+  z-index: 1000;
+  top: var(--glossary-tooltip-top);
+  left: var(--glossary-tooltip-left);
+  width: min(291px, 100vw - 32px);
+  padding: 16px 27px 16px 24px;
+  border: 1px solid #0d7978;
+  border-radius: 8px;
+  background: #0d7978;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: opacity;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+}
+.glossary-tooltip__bubble,
+.glossary-tooltip__bubble * {
+  box-sizing: border-box;
+}
+.glossary-tooltip__bubble::before {
+  content: "";
+  position: absolute;
+  left: var(--glossary-tooltip-arrow-left);
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: #0d7978;
+  transform: translateX(-50%) rotate(45deg);
+}
+.glossary-tooltip[data-placement=top] .glossary-tooltip__bubble::before {
+  bottom: -7px;
+}
+.glossary-tooltip[data-placement=bottom] .glossary-tooltip__bubble::before {
+  top: -7px;
+}
+.glossary-tooltip:hover .glossary-tooltip__bubble, .glossary-tooltip:focus-within .glossary-tooltip__bubble, .glossary-tooltip.is-active .glossary-tooltip__bubble, .glossary-tooltip.is-measuring .glossary-tooltip__bubble {
+  opacity: 1;
+  visibility: visible;
+}
+.glossary-tooltip:hover .glossary-tooltip__bubble, .glossary-tooltip:focus-within .glossary-tooltip__bubble, .glossary-tooltip.is-active .glossary-tooltip__bubble {
+  pointer-events: auto;
+}
+.glossary-tooltip__description {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: #fff;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-decoration: none;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.glossary-tooltip__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: #fff;
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 16px;
+  text-decoration: none;
+}
+.glossary-tooltip__more::after {
+  content: "";
+  width: 11px;
+  height: 11px;
+  flex: 0 0 11px;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11' fill='none'%3E%3Cpath d='M6.75 1.25H9.75V4.25' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4.25 6.75L9.75 1.25' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4.75 2.25H2.25C1.69772 2.25 1.25 2.69772 1.25 3.25V8.75C1.25 9.30228 1.69772 9.75 2.25 9.75H7.75C8.30228 9.75 8.75 9.30228 8.75 8.75V6.25' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11' fill='none'%3E%3Cpath d='M6.75 1.25H9.75V4.25' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4.25 6.75L9.75 1.25' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4.75 2.25H2.25C1.69772 2.25 1.25 2.69772 1.25 3.25V8.75C1.25 9.30228 1.69772 9.75 2.25 9.75H7.75C8.30228 9.75 8.75 9.30228 8.75 8.75V6.25' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.glossary-tooltip__bubble .glossary-tooltip__more, .glossary-tooltip__bubble a.glossary-tooltip __more, .glossary-tooltip__bubble .glossary-tooltip__more:visited, .glossary-tooltip__bubble a.glossary-tooltip __more:visited, .glossary-tooltip__bubble .glossary-tooltip__more:hover, .glossary-tooltip__bubble a.glossary-tooltip __more:hover, .glossary-tooltip__bubble .glossary-tooltip__more:focus, .glossary-tooltip__bubble a.glossary-tooltip __more:focus, .glossary-tooltip__bubble .glossary-tooltip__more:active, .glossary-tooltip__bubble a.glossary-tooltip __more:active {
+  color: #fff;
+  border-bottom: 0;
+  box-shadow: none;
+  text-decoration: none;
+  text-decoration-line: none;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 0;
+}
+.glossary-tooltip:focus {
+  outline: none;
+}
+.glossary-tooltip:focus-visible .glossary-tooltip__term {
+  outline: 2px solid #0d7978;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glossary-tooltip__bubble {
+    transition: opacity 0.01s linear, visibility 0.01s linear;
+  }
+}
