@@ -39,3 +39,29 @@ https://www.figma.com/file/A2sm4Jy2GDlOYWu52kVLbY/Optional-Designs-Back-End?node
 
 1. Create install function that will create the vocabulary on module install
 2. Limit the description on the page up to 100 chars, if the description is longer add “Read more” button that will lead user to the term page itself.
+
+## Current Module Notes
+
+- The module injects glossary tooltips into the final rendered HTML, so it can work with formatted text, plain text, nested paragraph output, and Layout Builder-rendered content.
+- Glossary terms are loaded from the `glossary` vocabulary, and the term description is used as tooltip content.
+- A settings form is available at `/admin/config/content/glossary-tooltip`.
+- The settings form allows excluding specific text fields per node bundle from glossary tooltip processing.
+
+## Frontend Assets
+
+Frontend styling is built from SCSS sources stored in `assets/src` and compiled to `assets/dist`.
+
+### Build commands
+
+```bash
+cd assets
+npm install
+npm run build
+```
+
+Available scripts:
+
+- `npm run build` builds both expanded and minified CSS files
+- `npm run build:css` builds `assets/dist/glossary_tooltip.css`
+- `npm run build:min` builds `assets/dist/glossary_tooltip.min.css`
+- `npm run watch` watches SCSS changes and rebuilds the expanded CSS output

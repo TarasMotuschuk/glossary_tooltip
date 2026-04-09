@@ -26,6 +26,8 @@ This task should be implemented and reviewed in **two separate variants**.
     - vendorized Drupal core files
     - other default Drupal distribution directories
 - Only the custom module itself should be submitted
+- For PHPDoc on typed arrays, always use explicit array element types such as `list<string>` or `array<string, mixed>`. Do not leave array constants, properties, params, or returns documented as a bare `array` when a more specific element type is known.
+- For PHP formatting, keep the blank-line rules expected by Drupal CS and PHPCS. In particular, add a blank line before standalone `if` and `return` statements where the sniff expects visual separation instead of tightly packing assignments and control flow.
 
 ## Local Verification Environment
 

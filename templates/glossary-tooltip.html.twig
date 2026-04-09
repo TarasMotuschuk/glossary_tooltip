@@ -1,6 +1,6 @@
-<span class="glossary-tooltip" tabindex="0">
+<span class="glossary-tooltip" tabindex="0" role="button" aria-expanded="false">
   <span class="glossary-tooltip__term">{{ matched_text }}</span>
-  <span class="glossary-tooltip__bubble" role="tooltip">
+  <span class="glossary-tooltip__bubble" role="tooltip" aria-hidden="true">
     <span class="glossary-tooltip__description">{{ short_description }}</span>
     {% if is_trimmed %}
       <a class="glossary-tooltip__more" href="{{ url }}">Read more</a>

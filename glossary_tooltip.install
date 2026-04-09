@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Install hooks for the Glossary Tooltip module.
  */
+
+declare(strict_types=1);
 
 use Drupal\taxonomy\Entity\Vocabulary;
 

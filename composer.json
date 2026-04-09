@@ -9,8 +9,8 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/your-org/glossary_tooltip/issues",
-    "docs": "https://github.com/your-org/glossary_tooltip"
+    "issues": "https://github.com/TarasMotuschuk/glossary_tooltip/issues",
+    "docs": "https://github.com/TarasMotuschuk/glossary_tooltip"
   },
   "require": {
     "php": ">=8.4",

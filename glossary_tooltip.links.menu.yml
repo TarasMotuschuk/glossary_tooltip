@@ -1,0 +1,5 @@
+glossary_tooltip.settings:
+  title: 'Glossary tooltip'
+  description: 'Configure which node fields are processed for glossary tooltips.'
+  route_name: glossary_tooltip.settings
+  parent: system.admin_config_content
